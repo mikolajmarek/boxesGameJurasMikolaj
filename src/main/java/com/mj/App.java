@@ -12,11 +12,11 @@ public class App {
         List<Prize> listOfEvents = new LinkedList<>();
 
         Map<Prize, Integer> eventMap = new HashMap<>();
-        //eventMap.put(Prize.HUNDRED, 1);
-        //eventMap.put(Prize.TWENTY, 1);
-        eventMap.put(Prize.FIVE, 1);
+        eventMap.put(Prize.HUNDRED, 1);
+//        eventMap.put(Prize.TWENTY, 1);
+      //  eventMap.put(Prize.FIVE, 1);
 //        eventMap.put(Prize.EXTRA_LIFE, 1);
-        eventMap.put(Prize.GAME_OVER, 2);
+        eventMap.put(Prize.GAME_OVER, 1);
 
 
         ProbabilityTree probabilityTree = new ProbabilityTree();
@@ -30,6 +30,8 @@ public class App {
                     System.out.println(" probability = " + r.getEventProbability());
                     System.out.println();
                 });
+
+        System.out.println(probabilityTree.getExpectedValue());
 
 
     }

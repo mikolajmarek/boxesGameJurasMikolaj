@@ -3,6 +3,7 @@ package com.mj;
 import com.mj.util.EmptyInputEception;
 import com.mj.util.IncorrectNumberOfEvents;
 import com.mj.util.MissingGameOverEvent;
+import com.mj.util.NoProbabilityEventsToEvaluate;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -30,7 +31,7 @@ public class ProbabilityTree {
         }
 
         return true;
-}
+    }
 
     public void generateTreeMap(Map<Prize, Integer> eventMap) {
         List<Prize> openedBoxes = new LinkedList<>();
@@ -40,11 +41,23 @@ public class ProbabilityTree {
         if (checkInputMap(eventMap)) {
             generateTreeLevel(eventMap, openedBoxes, probabilityOfEvent);
         }
-
-
     }
 
-    public void generateTreeLevel(Map<Prize, Integer> map, List<Prize> openedBoxes, double probabilityOfEvent) {
+    public Double getExpectedValue() {
+        Double sum= 0D;
+        if (probabilityEvents.isEmpty()) {
+            throw new NoProbabilityEventsToEvaluate("run the experiment first then evaluate");
+        } else {
+            for (ProbabilityEvent events : probabilityEvents) {
+                Double valueOfPrizes = events.getListOfOpenedBoxes().stream().mapToDouble(e -> Double.valueOf(e.value())).sum();
+                sum += valueOfPrizes * events.getEventProbability();
+            }
+
+        }
+        return sum;
+    }
+
+    private void generateTreeLevel(Map<Prize, Integer> map, List<Prize> openedBoxes, double probabilityOfEvent) {
 //        Iterator it = eventMap.entrySet().iterator();
 
         for (Iterator<Map.Entry<Prize, Integer>> it = map.entrySet().iterator(); it.hasNext(); ) {
@@ -64,7 +77,7 @@ public class ProbabilityTree {
             Map<Prize, Integer> innerMap;
             innerMap = eventMap.entrySet().stream().collect(Collectors.toMap(e -> e.getKey(), e -> e.getValue()));
 
-            currentProbability = probabilityOfEvent * currentProbability*( entry.getValue() / amountOfAvailableEvent);
+            currentProbability = probabilityOfEvent * currentProbability * (entry.getValue() / amountOfAvailableEvent);
 
             if (!entry.getKey().equals(Prize.GAME_OVER)) {
                 openedBoxesOnCurrentBranch.add(entry.getKey());

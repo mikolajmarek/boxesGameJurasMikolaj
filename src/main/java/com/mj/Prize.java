@@ -12,5 +12,5 @@ public enum Prize {
         this.prizeValue = prizeValue;
     }
 
-    private int value() { return prizeValue; }
+    public int value() { return prizeValue; }
 }
