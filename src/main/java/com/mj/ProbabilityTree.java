@@ -20,27 +20,28 @@ public class ProbabilityTree {
 //        }
 //    }
 
-    public void generateTreeLevel(Map<Prize, Integer> map, List<Prize> openedBoxes) {
+    public void generateTreeLevel(Map<Prize, Integer> map, List<Prize> openedBoxes, Float probabilityOfEvent) {
 //        Iterator it = eventMap.entrySet().iterator();
 
         for (Iterator<Map.Entry<Prize, Integer>> it = map.entrySet().iterator(); it.hasNext(); ) {
-            Double currentProbability;
+            Float currentProbability = 1F;
+            Float amountOfAvailableEvent = 0F;
             Map<Prize, Integer> eventMap;
             eventMap = map.entrySet().stream().collect(Collectors.toMap(e -> e.getKey(), e -> e.getValue()));
-
-            List<Prize> openedBoxesOnCurrentBranch = new LinkedList<>();
+            for (Integer values : eventMap.values()) {
+                amountOfAvailableEvent += values;
+            }
+            List<Prize> openedBoxesOnCurrentBranch;
             openedBoxesOnCurrentBranch = openedBoxes.stream().collect(Collectors.toList());
-//            it.remove();
+
             Map.Entry<Prize, Integer> entry = it.next();
             Map<Prize, Integer> innerMap;
             innerMap = eventMap.entrySet().stream().collect(Collectors.toMap(e -> e.getKey(), e -> e.getValue()));
-
+            currentProbability = probabilityOfEvent * (currentProbability / amountOfAvailableEvent);
             if (!entry.getKey().equals(Prize.GAME_OVER)) {
                 openedBoxesOnCurrentBranch.add(entry.getKey());
-
             } else {
-                probabilityEvents.add(new ProbabilityEvent(openedBoxesOnCurrentBranch));
-
+                probabilityEvents.add(new ProbabilityEvent(openedBoxesOnCurrentBranch, currentProbability));
             }
             if (entry.getValue() - 1 >= 1) {
                 innerMap.put(entry.getKey(), entry.getValue() - 1);
@@ -51,7 +52,7 @@ public class ProbabilityTree {
             List<Prize> currentOpenedBoxesOnCurrentBranch;
             currentOpenedBoxesOnCurrentBranch = openedBoxesOnCurrentBranch.stream().collect(Collectors.toList());
             if (!innerMap.isEmpty()) {
-                generateTreeLevel(innerMap, currentOpenedBoxesOnCurrentBranch);
+                generateTreeLevel(innerMap, currentOpenedBoxesOnCurrentBranch, currentProbability);
             }
 
         }

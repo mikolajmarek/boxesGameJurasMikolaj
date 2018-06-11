@@ -5,9 +5,16 @@ import java.util.List;
 
 public class ProbabilityEvent {
     private List<Prize> listOfOpenedBoxes;
+    private Float eventProbability;
 
-    public ProbabilityEvent(List<Prize> listOfOpenedBoxes) {
+    public Float getEventProbability() {
+        return eventProbability;
+    }
+
+    public ProbabilityEvent(List<Prize> listOfOpenedBoxes, Float eventProbability) {
         this.listOfOpenedBoxes = listOfOpenedBoxes;
+        this.eventProbability = eventProbability;
+
     }
 
 //
@@ -16,7 +23,7 @@ public class ProbabilityEvent {
         return listOfOpenedBoxes;
     }
 
-    private Double probabilityOfCurrentEvent;
+
 //    private BigDecimal prize;
 //    private boolean extraLife;
 
