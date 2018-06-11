@@ -12,17 +12,15 @@ public class App {
         List<Prize> listOfEvents = new LinkedList<>();
 
         Map<Prize, Integer> eventMap = new HashMap<>();
-        eventMap.put(Prize.HUNDRED, 1);
-      //  eventMap.put(Prize.TWENTY, 1);
+        //eventMap.put(Prize.HUNDRED, 1);
+        //eventMap.put(Prize.TWENTY, 1);
         eventMap.put(Prize.FIVE, 1);
 //        eventMap.put(Prize.EXTRA_LIFE, 1);
-        eventMap.put(Prize.GAME_OVER, 1);
+        eventMap.put(Prize.GAME_OVER, 2);
 
 
         ProbabilityTree probabilityTree = new ProbabilityTree();
-        probabilityTree.generateTreeLevel(eventMap, listOfEvents, 1F);
-
-//probabilityTree.getProbabilityEvents().stream().forEach(e-> e.getListOfOpenedBoxes());
+        probabilityTree.generateTreeMap(eventMap);
 
         System.out.println("amount of combinations: " + probabilityTree.getProbabilityEvents().size());
 
@@ -33,9 +31,6 @@ public class App {
                     System.out.println();
                 });
 
-
-//               Map.Entry pair = (Map.Entry)it.next();
-//               listOfEvents.add(new ProbabilityEvent(pair.getKey(), pair.getValue());
 
     }
 }

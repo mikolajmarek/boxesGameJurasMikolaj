@@ -5,13 +5,13 @@ import java.util.List;
 
 public class ProbabilityEvent {
     private List<Prize> listOfOpenedBoxes;
-    private Float eventProbability;
+    private double eventProbability;
 
-    public Float getEventProbability() {
+    public double getEventProbability() {
         return eventProbability;
     }
 
-    public ProbabilityEvent(List<Prize> listOfOpenedBoxes, Float eventProbability) {
+    public ProbabilityEvent(List<Prize> listOfOpenedBoxes, double eventProbability) {
         this.listOfOpenedBoxes = listOfOpenedBoxes;
         this.eventProbability = eventProbability;
 
@@ -22,10 +22,6 @@ public class ProbabilityEvent {
     public List<Prize> getListOfOpenedBoxes() {
         return listOfOpenedBoxes;
     }
-
-
-//    private BigDecimal prize;
-//    private boolean extraLife;
 
 
 
