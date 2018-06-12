@@ -19,13 +19,15 @@ public class GameApp {
         eventMap.put(Prize.GAME_OVER, 3);
 
         ProbabilityTree probabilityTree = new ProbabilityTree();
-        probabilityTree.generateTreeMap(eventMap);
+        probabilityTree.makeProbabilityTree(eventMap);
         OpeningBoxesGame openingBoxesGame = new OpeningBoxesGame();
 
         List<Prize> list = new LinkedList<>();
         list.addAll(openingBoxesGame.fillList(eventMap));
 
-        System.out.println("Simulation after 1e7 games: " + openingBoxesGame.rewardForManyGames(10000000, list) / 10000000);
+        int numberOfGames = 10000000;
+
+        System.out.println("Simulation after 1e7 games: " + openingBoxesGame.rewardForManyGames(numberOfGames, list) / numberOfGames);
         System.out.println("Expected value of the Simulation: " + probabilityTree.getExpectedValue());
 
 
