@@ -1,4 +1,4 @@
-package com.mj;
+package com.mj.ExpectedValue;
 
 import com.mj.util.EmptyInputEception;
 import com.mj.util.IncorrectNumberOfEvents;

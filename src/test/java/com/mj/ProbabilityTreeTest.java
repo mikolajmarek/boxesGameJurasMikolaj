@@ -1,7 +1,8 @@
 package com.mj;
 
+import com.mj.ExpectedValue.Prize;
+import com.mj.ExpectedValue.ProbabilityTree;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 
 import com.mj.util.EmptyInputEception;

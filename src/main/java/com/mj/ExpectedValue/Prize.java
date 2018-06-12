@@ -1,4 +1,4 @@
-package com.mj;
+package com.mj.ExpectedValue;
 
 public enum Prize {
     HUNDRED (100),

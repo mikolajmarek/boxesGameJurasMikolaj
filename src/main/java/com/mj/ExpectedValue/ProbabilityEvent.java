@@ -1,6 +1,5 @@
-package com.mj;
+package com.mj.ExpectedValue;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 public class ProbabilityEvent {
