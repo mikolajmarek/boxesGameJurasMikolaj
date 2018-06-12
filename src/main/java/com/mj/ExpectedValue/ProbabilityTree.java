@@ -60,8 +60,8 @@ public class ProbabilityTree {
 
         for (Map.Entry<Prize, Integer> prizeIntegerEntry : map.entrySet()) {
 
-            double currentProbability = 1F;
-            double amountOfAvailableEvent = 0F;
+            double currentProbability = 1;
+            double amountOfAvailableEvent = 0;
             boolean innerExtraLife = false;
 
             Map<Prize, Integer> eventMap = new HashMap<>();

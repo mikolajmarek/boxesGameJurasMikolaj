@@ -2,7 +2,7 @@ package com.mj.ExpectedValue;
 
 import java.util.*;
 
-public class ExpectedValueApp {
+public class expectedValueApp {
     public static void main(String[] args) {
 
         List<Prize> listOfEvents = new LinkedList<>();
