@@ -16,12 +16,8 @@ public class ProbabilityEvent {
 
     }
 
-//
-
     public List<Prize> getListOfOpenedBoxes() {
         return listOfOpenedBoxes;
     }
-
-
 
 }

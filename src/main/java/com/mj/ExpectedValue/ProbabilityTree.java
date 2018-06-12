@@ -1,12 +1,11 @@
 package com.mj.ExpectedValue;
 
-import com.mj.util.EmptyInputEception;
+import com.mj.util.EmptyInputMapException;
 import com.mj.util.IncorrectNumberOfEvents;
 import com.mj.util.MissingGameOverEvent;
 import com.mj.util.NoProbabilityEventsToEvaluate;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class ProbabilityTree {
     private List<ProbabilityEvent> probabilityEvents = new LinkedList<>();
@@ -18,7 +17,7 @@ public class ProbabilityTree {
 
     private boolean checkInputMap(Map<Prize, Integer> map) {
         if (map.isEmpty()) {
-            throw new EmptyInputEception("empty input");
+            throw new EmptyInputMapException("empty input");
         } else if (!map.containsKey(Prize.GAME_OVER)) {
 
             throw new MissingGameOverEvent("No end of the game conditions");
@@ -33,14 +32,14 @@ public class ProbabilityTree {
         return true;
     }
 
-    public void generateTreeMap(Map<Prize, Integer> eventMap) {
+    public void makeProbabilityTree(Map<Prize, Integer> eventMap) {
+
         List<Prize> openedBoxes = new LinkedList<>();
         double probabilityOfEvent = 1D;
         boolean extraLife = false;
 
-
         if (checkInputMap(eventMap)) {
-            generateTreeLevel(eventMap, openedBoxes, probabilityOfEvent, extraLife);
+            makeTreeLevel(eventMap, openedBoxes, probabilityOfEvent, extraLife);
         }
     }
 
@@ -57,67 +56,47 @@ public class ProbabilityTree {
         return sum;
     }
 
-    private void generateTreeLevel(Map<Prize, Integer> map, List<Prize> openedBoxes, double probabilityOfEvent, boolean extraLife) {
-//        Iterator it = eventMap.entrySet().iterator();
+    private void makeTreeLevel(Map<Prize, Integer> map, List<Prize> openedBoxes, double probabilityOfEvent, boolean extraLife) {
 
-        for (Iterator<Map.Entry<Prize, Integer>> it = map.entrySet().iterator(); it.hasNext(); ) {
+        for (Map.Entry<Prize, Integer> prizeIntegerEntry : map.entrySet()) {
 
             double currentProbability = 1F;
             double amountOfAvailableEvent = 0F;
             boolean innerExtraLife = false;
 
-            Map<Prize, Integer> eventMap;
-            eventMap = map.entrySet().stream().collect(Collectors.toMap(e -> e.getKey(), e -> e.getValue()));
+            Map<Prize, Integer> eventMap = new HashMap<>();
+            eventMap.putAll(map);
+
             for (Integer value : eventMap.values()) {
                 amountOfAvailableEvent += value;
             }
-            List<Prize> openedBoxesOnCurrentBranch;
-            openedBoxesOnCurrentBranch = openedBoxes.stream().collect(Collectors.toList());
+            List<Prize> openedBoxesOnCurrentBranch = new LinkedList<>();
+            openedBoxesOnCurrentBranch.addAll(openedBoxes);
 
-            Map.Entry<Prize, Integer> entry = it.next();
-            Map<Prize, Integer> innerMap;
-            innerMap = eventMap.entrySet().stream().collect(Collectors.toMap(e -> e.getKey(), e -> e.getValue()));
+            currentProbability = probabilityOfEvent * currentProbability * (prizeIntegerEntry.getValue() / amountOfAvailableEvent);
 
-            currentProbability = probabilityOfEvent * currentProbability * (entry.getValue() / amountOfAvailableEvent);
-
-            if (!entry.getKey().equals(Prize.GAME_OVER)) {
-                openedBoxesOnCurrentBranch.add(entry.getKey());
+            if (!prizeIntegerEntry.getKey().equals(Prize.GAME_OVER)) {
+                openedBoxesOnCurrentBranch.add(prizeIntegerEntry.getKey());
             } else {
-                if (openedBoxesOnCurrentBranch.contains(Prize.EXTRA_LIFE)){
+                if (openedBoxesOnCurrentBranch.contains(Prize.EXTRA_LIFE)) {
                     openedBoxesOnCurrentBranch.remove(openedBoxesOnCurrentBranch.indexOf(Prize.EXTRA_LIFE));
-                    openedBoxesOnCurrentBranch.add(entry.getKey());
+                    openedBoxesOnCurrentBranch.add(prizeIntegerEntry.getKey());
                 } else {
                     probabilityEvents.add(new ProbabilityEvent(openedBoxesOnCurrentBranch, currentProbability));
                     continue;
                 }
             }
-            if (entry.getValue() - 1 >= 1) {
-                innerMap.put(entry.getKey(), entry.getValue() - 1);
+
+            if (prizeIntegerEntry.getValue() - 1 >= 1) {
+                eventMap.put(prizeIntegerEntry.getKey(), prizeIntegerEntry.getValue() - 1);
             } else {
-//                innerMap.put(entry.getKey(), entry.getValue() - 1);
-                innerMap.remove(entry.getKey(), entry.getValue());
+                eventMap.remove(prizeIntegerEntry.getKey(), prizeIntegerEntry.getValue());
             }
+            List<Prize> currentOpenedBoxesOnCurrentBranch = new LinkedList<>();
+            currentOpenedBoxesOnCurrentBranch.addAll(openedBoxesOnCurrentBranch);
 
-
-//
-//            if (!entry.getKey().equals(Prize.GAME_OVER)) {
-//                openedBoxesOnCurrentBranch.add(entry.getKey());
-//            } else {
-//                probabilityEvents.add(new ProbabilityEvent(openedBoxesOnCurrentBranch, currentProbability));
-//                continue;
-//
-//            }
-////
-
-            if (entry.getValue() - 1 >= 1) {
-                innerMap.put(entry.getKey(), entry.getValue() - 1);
-            } else {
-                innerMap.remove(entry.getKey(), entry.getValue());
-            }
-            List<Prize> currentOpenedBoxesOnCurrentBranch;
-            currentOpenedBoxesOnCurrentBranch = openedBoxesOnCurrentBranch.stream().collect(Collectors.toList());
-            if (!innerMap.isEmpty()) {
-                generateTreeLevel(innerMap, currentOpenedBoxesOnCurrentBranch, currentProbability, innerExtraLife);
+            if (!eventMap.isEmpty()) {
+                makeTreeLevel(eventMap, currentOpenedBoxesOnCurrentBranch, currentProbability, innerExtraLife);
             }
 
         }

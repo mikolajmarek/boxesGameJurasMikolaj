@@ -2,10 +2,7 @@ package com.mj.ExpectedValue;
 
 import java.util.*;
 
-/**
- * Hello world!
- */
-public class App {
+public class ExpectedValueApp {
     public static void main(String[] args) {
 
         List<Prize> listOfEvents = new LinkedList<>();
@@ -14,17 +11,18 @@ public class App {
         eventMap.put(Prize.HUNDRED, 1);
         eventMap.put(Prize.TWENTY, 2);
         eventMap.put(Prize.FIVE, 5);
-        eventMap.put(Prize.EXTRA_LIFE,1);
-        eventMap.put(Prize.GAME_OVER,3);
+        eventMap.put(Prize.EXTRA_LIFE, 1);
+        eventMap.put(Prize.GAME_OVER, 3);
 //
 
         ProbabilityTree probabilityTree = new ProbabilityTree();
-        probabilityTree.generateTreeMap(eventMap);
+        probabilityTree.makeProbabilityTree(eventMap);
 
         System.out.println("amount of combinations: " + probabilityTree.getProbabilityEvents().size());
 
-//        probabilityTree.getProbabilityEvents().stream()
-//                .forEach(r -> {
+//********** Lambda to Display all combinations*******
+//                    probabilityTree.getProbabilityEvents().stream()
+//                    .forEach(r -> {
 //                    r.getListOfOpenedBoxes().stream().forEach(f -> System.out.print(f + ";"));
 //                    System.out.println(" probability = " + r.getEventProbability());
 //                    System.out.println();

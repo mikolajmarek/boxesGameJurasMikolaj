@@ -5,7 +5,7 @@ import com.mj.ExpectedValue.ProbabilityTree;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.mj.util.EmptyInputEception;
+import com.mj.util.EmptyInputMapException;
 import com.mj.util.IncorrectNumberOfEvents;
 
 import java.util.HashMap;
@@ -23,7 +23,7 @@ public class ProbabilityTreeTest {
         map.put(Prize.TWENTY, 1);
         map.put(Prize.GAME_OVER, 1);
 
-        probabilityTree.generateTreeMap(map);
+        probabilityTree.makeProbabilityTree(map);
 
         Assert.assertEquals(5, probabilityTree.getProbabilityEvents().size());
     }
@@ -36,7 +36,7 @@ public class ProbabilityTreeTest {
         map.put(Prize.TWENTY, 5);
         map.put(Prize.GAME_OVER, 4);
 
-        probabilityTree.generateTreeMap(map);
+        probabilityTree.makeProbabilityTree(map);
 
         double result = 0;
         result = probabilityTree.getProbabilityEvents().stream().mapToDouble(e -> e.getEventProbability()).sum();
@@ -49,17 +49,17 @@ public class ProbabilityTreeTest {
         map.put(Prize.HUNDRED, 1);
         map.put(Prize.GAME_OVER, 1);
 
-        probabilityTree.generateTreeMap(map);
+        probabilityTree.makeProbabilityTree(map);
         Double result = probabilityTree.getExpectedValue();
 
         Assert.assertEquals(Double.valueOf(50), Double.valueOf(result));
     }
 
-    @Test(expected = EmptyInputEception.class)
+    @Test(expected = EmptyInputMapException.class)
     public void shouldThrowWmptyInputException() {
 
         Map<Prize, Integer> map = new HashMap<>();
-        probabilityTree.generateTreeMap(map);
+        probabilityTree.makeProbabilityTree(map);
     }
 
     @Test(expected = IncorrectNumberOfEvents.class)
@@ -70,7 +70,7 @@ public class ProbabilityTreeTest {
         map.put(Prize.TWENTY, 0);
         map.put(Prize.GAME_OVER, 2);
 
-        probabilityTree.generateTreeMap(map);
+        probabilityTree.makeProbabilityTree(map);
 
     }
 

@@ -1,9 +1,7 @@
 package com.mj.game;
 
 import com.mj.ExpectedValue.Prize;
-
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class OpeningBoxesGame {
 
@@ -67,8 +65,6 @@ public class OpeningBoxesGame {
         }
 
         return reward;
-
-
     }
 
     public double rewardForManyGames(int n, List<Prize> l){
