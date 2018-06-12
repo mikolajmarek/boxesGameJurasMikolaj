@@ -1,6 +1,5 @@
-package com.mj;
+package com.mj.ExpectedValue;
 
-import java.math.BigDecimal;
 import java.util.*;
 
 /**
@@ -24,12 +23,12 @@ public class App {
 
         System.out.println("amount of combinations: " + probabilityTree.getProbabilityEvents().size());
 
-        probabilityTree.getProbabilityEvents().stream()
-                .forEach(r -> {
-                    r.getListOfOpenedBoxes().stream().forEach(f -> System.out.print(f + ";"));
-                    System.out.println(" probability = " + r.getEventProbability());
-                    System.out.println();
-                });
+//        probabilityTree.getProbabilityEvents().stream()
+//                .forEach(r -> {
+//                    r.getListOfOpenedBoxes().stream().forEach(f -> System.out.print(f + ";"));
+//                    System.out.println(" probability = " + r.getEventProbability());
+//                    System.out.println();
+//                });
 
         System.out.println(probabilityTree.getExpectedValue());
 
